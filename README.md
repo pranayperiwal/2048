@@ -16,30 +16,38 @@ A new tile is generated after the combination of the tiles takes place. The new 
 
 
 3. Features/Functions and GitHub Repo
+
 a) Features
+
 Requirements - 
-Generation of random game sets or events : 
+
+i) Generation of random game sets or events : 
 The initial game state would consist of 2 tiles generated randomly anywhere on the 4x4 board. The 2 tiles would be a combination of ‘2’ and ‘4’.
 The new tile generated after every move would be either a ‘2’ or a ‘4’. However, the 2 would be generated 90% of the time and the 4 10% of the time.
-Data structures for storing game status : 
+
+ii) Data structures for storing game status : 
 The game state would be stored in a 2D array. Therefore, for the project, we will be using a linear form of data structure. We will not be using vectors as we do not need to change the size of our board (the permanent size of the board is 4x4).
-Dynamic memory management : We will be using a temporary game state and a live game state for the purpose of the “undo” functionality we aim to implement. The pointers will be pointing to the temporary state of the game so that if the user wants to undo their move, our pointer simply points to the old game state. 
-File input/output (e.g., for loading/saving game status) : We will implement Undo, Quit, New Game functions. When there are no moves left, or the user wants to quit the game, we will be storing that specific state of the game at that point of time in a new output file, and displaying that on the terminal.
-Program codes in multiple files : We will be splitting our code tentatively into three files. These files will contain the code corresponding to the game functionality (game logic), tiles movement, generation of random tiles and merging of tiles. 
+
+iii) Dynamic memory management : We will be using a temporary game state and a live game state for the purpose of the “undo” functionality we aim to implement. The pointers will be pointing to the temporary state of the game so that if the user wants to undo their move, our pointer simply points to the old game state. 
+
+iv) File input/output (e.g., for loading/saving game status) : We will implement Undo, Quit, New Game functions. When there are no moves left, or the user wants to quit the game, we will be storing that specific state of the game at that point of time in a new output file, and displaying that on the terminal.
+
+v) Program codes in multiple files : We will be splitting our code tentatively into three files. These files will contain the code corresponding to the game functionality (game logic), tiles movement, generation of random tiles and merging of tiles. 
 
 b) Functions
-Moves by the player and the resultant changes of the game state
-Up
-Down
-Right
-Left 
-Creating a random new tile with 2 90% of the time and 4 10% of the time
-Giving conditions for the final state and end conditions in the case the player is unable to make any more moves
-Restart of the game
-Quiting the game
-Saving the game state
-Quitting and saving the game state
-Undo move by 1 step
+
+1. Moves by the player and the resultant changes of the game state:
+a) Up
+b) Down
+c) Right
+d) Left 
+2. Creating a random new tile with 2 90% of the time and 4 10% of the time
+3. Giving conditions for the final state and end conditions in the case the player is unable to make any more moves
+4. Restart of the game
+5. Quiting the game
+6. Saving the game state
+7. Quitting and saving the game state
+8. Undo move by 1 step
 
 c) GitHub Repo
 
