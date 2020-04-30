@@ -21,8 +21,8 @@ void up(int grid[4][4]){
 
     //moving and combining the grid numbers
     for(int j=0;j<4;j++){
-        int i =0;
-        while(i<4){
+        for(int i =0;i<4;i++){
+            
             //combining the grid numbers if they are the same
             if(i<3){
                 if(grid[i][j]==grid[i+1][j]){
@@ -37,8 +37,10 @@ void up(int grid[4][4]){
                     grid[i][j]=0;
                 }
             }
-            i++;
+            
         }
+        
     }
 
 }
+
