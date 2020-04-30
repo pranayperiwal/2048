@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <stdlib.h>
+#include <iomanip>
 #include "movementUp.cpp"
 #include "movementDown.cpp"
 #include "movementRight.cpp"
@@ -22,12 +24,12 @@ void randomNum(int number){
     //generating a random number between 0 and 9
     int probability = rand()%10;
     if(grid[randi][randj]==0){
-      if(probability<8){ //this creates an 80% chance as the probablity of it being less than 8 is 80% and we assign 2 for 80% of this time
+      if(probability<9){ //this creates a 90% chance as the probablity of it being less than 9 is 90% and we assign 2 for time
         grid[randi][randj]=2;
       }
       else
       {
-        grid[randi][randj]=4; //for the remaining 20% we generate a 4 as a starting value
+        grid[randi][randj]=4; //for the remaining 10% we generate a 4 as a starting value
       }
       count++;
     }
@@ -49,19 +51,19 @@ void newgame() {
 //prints the current board
 void printboard() {
   cout << "n: start new game, w: up, a: left, s: down, d: right, q: quit" << endl;
-  cout<<"- * - * - * - * -"<<endl;
+  cout<<"- * - * - * - * - * - * - * -"<<endl;
   for (int i = 0; i < 4; i++) {
-    cout<<"| ";
+    cout<<"|";
     for (int j = 0; j < 4; j ++){
         if (grid[i][j] == 0)
-          cout<<"  | ";
+          cout<<"      |";
         else
         {
-          cout << grid[i][j] << " | ";
-      }
+          cout <<setw(5)<< grid[i][j] << " |";
+        }
       }
     cout<<endl;
-    cout<<"- * - * - * - * -"<<endl;
+    cout<<"- * - * - * - * - * - * - * -"<<endl;
   }
 }
 
@@ -73,29 +75,45 @@ int main() {
     cin >> inputletter;
     if (inputletter == 'n') {
       newgame();
+      system("CLS");
+      cout<<"\n\nStarting a new game for you!\n\n"<<flush; 
       printboard();
     } else if (inputletter == 'w') {
+      system("CLS");
+      cout<<flush; //clears the screen for the new board
       up(grid);
       randomNum(1);
       printboard();
     }
     else if (inputletter == 's') {
+      system("CLS");
+      cout<<flush;
       down(grid);
       randomNum(1);
       printboard();
     }
     else if (inputletter == 'd') {
+      system("CLS");
+      cout<<flush;
       right(grid);
       randomNum(1);
       printboard();
     }
     else if (inputletter == 'a') {
+      system("CLS");
+      cout<<flush;
       left(grid);
       randomNum(1);
       printboard();
     }
     else if (inputletter == 'q') {
+      system("CLS");
+      cout<<"\n\n\n\n";
+      cout<<"We hope you had fun! See you later!!\n\n\n"<<flush;
       break;
+    }
+    else{
+      cout<<"Please enter a correct input as given below."<<endl;
     }
   }
   return 0;
