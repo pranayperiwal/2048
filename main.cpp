@@ -1,23 +1,19 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include "movements.cpp"
 using namespace std;
 
 int grid[4][4];
 
-//initializes the grid to all 0s
-void newgame() {
-  for (int i = 0; i < 4; i++) {
-    for (int j = 0; j < 4; j ++) {
-      grid[i][j] = 0;
-    }
-  }
 
+//generates how many ever random numbers as the parameter "number"
+void randomNum(int number){
   //generation of 2 random coordinates on the map and filling it in with 2 or 4 
   srand(time(NULL));
   int count=0;
   //we are checking to make sure only 2 values are generated which are not in the same coordinate
-  while(count!=2){
+  while(count!=number){
     int randi = rand()%4;
     int randj = rand()%4;
     //generating a random number between 0 and 9
@@ -34,6 +30,18 @@ void newgame() {
     }
   }
 }
+
+//initializes the grid to all 0s
+void newgame() {
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j ++) {
+      grid[i][j] = 0;
+    }
+  }
+  randomNum(2);
+}
+
+
 
 //prints the current board
 void printboard() {
@@ -56,8 +64,6 @@ void printboard() {
 }
 
 int main() {
-
-
   while (true) {
     
     cout << "n: start new game, w: up, a: left, s: down, d: right, q: quit" << endl;
@@ -66,13 +72,14 @@ int main() {
     if (inputletter == 'n') {
       newgame();
       printboard();
-    } else if (inputletter == 'q') {
+    } else if (inputletter == 'w') {
+      up(grid);
+      randomNum(1);
+      printboard();
+    } 
+    else if (inputletter == 'q') {
       break;
     }
   }
-
-  //Added a new line to check
-  //Second Line to check
-
   return 0;
 }
