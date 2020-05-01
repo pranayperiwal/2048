@@ -67,6 +67,23 @@ void printboard() {
   }
 }
 
+//checks whether all the places in the grid are filled up or not
+bool checkMove(int grid[4][4]) {
+  int counter = 0;
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      if (grid[i][j] == 0) {
+        counter ++;
+      }
+    }
+  }
+  if (counter == 16) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 int main() {
   while (true) {
 
@@ -76,7 +93,7 @@ int main() {
     if (inputletter == 'n') {
       newgame();
       system("CLS");
-      cout<<"\n\nStarting a new game for you!\n\n"<<flush; 
+      cout<<"\n\nStarting a new game for you!\n\n"<<flush;
       printboard();
     } else if (inputletter == 'w') {
       system("CLS");
@@ -84,6 +101,10 @@ int main() {
       up(grid);
       randomNum(1);
       printboard();
+      if (checkMove(grid) == false) {
+        cout << "Sorry! No more possible moves!" << endl;
+        break;
+      }
     }
     else if (inputletter == 's') {
       system("CLS");
@@ -98,6 +119,10 @@ int main() {
       right(grid);
       randomNum(1);
       printboard();
+      if (checkMove(grid) == false) {
+        cout << "Sorry! No more possible moves!" << endl;
+        break;
+      }
     }
     else if (inputletter == 'a') {
       system("CLS");
@@ -105,6 +130,10 @@ int main() {
       left(grid);
       randomNum(1);
       printboard();
+      if (checkMove(grid) == false) {
+        cout << "Sorry! No more possible moves!" << endl;
+        break;
+      }
     }
     else if (inputletter == 'q') {
       system("CLS");
