@@ -47,7 +47,6 @@ void newgame() {
 }
 
 
-
 //prints the current board
 void printboard() {
   cout << "n: start new game, w: up, a: left, s: down, d: right, q: quit" << endl;
@@ -67,7 +66,7 @@ void printboard() {
   }
 }
 
-//checks whether all the places in the grid are filled up or not
+//returns a boolean 
 bool checkMove(int grid[4][4]) {
   int counter = 0;
   for (int i = 0; i < 4; i++) {
