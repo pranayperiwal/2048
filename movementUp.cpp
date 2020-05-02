@@ -2,7 +2,7 @@
 using namespace std;
 
 //creating the game logic for when the 'w' (up) key is pressed
-void up(int grid[4][4]){
+void up(int grid[4][4], int &score){
 
     //removing empty space above each number in the grid
     for(int j =0;j<4;j++){
@@ -28,6 +28,7 @@ void up(int grid[4][4]){
                 if(grid[i][j]==grid[i+1][j]){
                     grid[i][j]=grid[i][j]+grid[i+1][j];
                     grid[i+1][j] = 0;
+                    score+=grid[i][j]+grid[i+1][j]; //increasing the score if a combination happens
                 }
             }
             //to check again if there is a free space created above a grid and then moving the number there

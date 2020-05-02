@@ -10,7 +10,7 @@
 using namespace std;
 
 int grid[4][4];
-
+int score=0;
 
 //generates how many ever random numbers on the grid as the parameter "number"
 void randomNum(int number){
@@ -50,7 +50,8 @@ void newgame() {
 
 //prints the current board
 void printboard() {
-  cout << "n: start new game, w: up, a: left, s: down, d: right, q: quit" << endl;
+  cout << "n: start new game, w: up, a: left, s: down, d: right, q: quit\n\n" << endl;
+  cout<<"          Score: "<<score<<'\n'<<endl;
   cout<<"- * - * - * - * - * - * - * -"<<endl;
   for (int i = 0; i < 4; i++) {
     cout<<"|";
@@ -76,39 +77,40 @@ int main() {
     if (inputletter == 'n') {
       newgame();
       system("CLS");
-      cout<<"\n\nStarting a new game for you!\n\n"<<flush; 
+      cout<<"Starting a new game for you!\n\n"<<flush; 
       printboard();
     } else if (inputletter == 'w') {
       system("CLS");
       cout<<flush; //clears the screen for the new board
-      up(grid);
+      up(grid, score);
       randomNum(1);
       printboard();
     }
     else if (inputletter == 's') {
       system("CLS");
       cout<<flush;
-      down(grid);
+      down(grid, score);
       randomNum(1);
       printboard();
     }
     else if (inputletter == 'd') {
       system("CLS");
       cout<<flush;
-      right(grid);
+      right(grid, score);
       randomNum(1);
       printboard();
     }
     else if (inputletter == 'a') {
       system("CLS");
       cout<<flush;
-      left(grid);
+      left(grid, score);
       randomNum(1);
       printboard();
     }
     else if (inputletter == 'q') {
       system("CLS");
       cout<<"\n\n\n\n";
+      cout<<"Your final score was: "<<score<<endl;
       cout<<"We hope you had fun! See you later!!\n\n\n"<<flush;
       break;
     }
