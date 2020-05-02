@@ -68,24 +68,54 @@ void printboard() {
   }
 }
 
+//checks whether all the places in the grid are filled up or not and returns
+//a boolean.
+
+bool checkMove(int grid[4][4]) {
+  //counter used to keep a track whether 16 elements of the grid are 0 or not
+  int counter = 0;
+  
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      if (grid[i][j] == 0) {
+        counter ++;
+      }
+    }
+  }
+  if (counter == 16) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 int main() {
+
   while (true) {
 
     cout << "n: start new game, w: up, a: left, s: down, d: right, q: quit" << endl;
     char inputletter;
     cin >> inputletter;
+
     if (inputletter == 'n') {
       newgame();
       system("CLS");
       cout<<"Starting a new game for you!\n\n"<<flush; 
       printboard();
-    } else if (inputletter == 'w') {
+    }
+
+    else if (inputletter == 'w') {
       system("CLS");
       cout<<flush; //clears the screen for the new board
       up(grid, score);
       randomNum(1);
       printboard();
+      if (checkMove(grid) == false) {
+        cout << "Sorry! No more possible moves!" << endl;
+        break;
+      }
     }
+
     else if (inputletter == 's') {
       system("CLS");
       cout<<flush;
@@ -93,20 +123,31 @@ int main() {
       randomNum(1);
       printboard();
     }
+
     else if (inputletter == 'd') {
       system("CLS");
       cout<<flush;
       right(grid, score);
       randomNum(1);
       printboard();
+      if (checkMove(grid) == false) {
+        cout << "Sorry! No more possible moves!" << endl;
+        break;
+      }
     }
+
     else if (inputletter == 'a') {
       system("CLS");
       cout<<flush;
       left(grid, score);
       randomNum(1);
       printboard();
+      if (checkMove(grid) == false) {
+        cout << "Sorry! No more possible moves!" << endl;
+        break;
+      }
     }
+
     else if (inputletter == 'q') {
       system("CLS");
       cout<<"\n\n\n\n";
@@ -114,9 +155,11 @@ int main() {
       cout<<"We hope you had fun! See you later!!\n\n\n"<<flush;
       break;
     }
+
     else{
       cout<<"Please enter a correct input as given below."<<endl;
     }
   }
+
   return 0;
 }
