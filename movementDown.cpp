@@ -1,3 +1,5 @@
+#include "movements.h"
+
 //creating the game logic for when the 's' (down) key is pressed
 void down(int grid[4][4], int &score){
 

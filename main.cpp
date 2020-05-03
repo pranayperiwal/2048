@@ -3,14 +3,13 @@
 #include <ctime>
 #include <stdlib.h>
 #include <iomanip>
-#include "movementUp.cpp"
-#include "movementDown.cpp"
-#include "movementRight.cpp"
-#include "movementLeft.cpp"
+#include "movements.h"
 using namespace std;
 
 int grid[4][4];
 int score=0;
+void left(int grid[4][4], int &score);
+
 
 //generates how many ever random numbers on the grid as the parameter "number"
 void randomNum(int number){
@@ -148,12 +147,28 @@ int main() {
       }
     }
 
+    //checks for quitting the game
     else if (inputletter == 'q') {
-      system("CLS");
-      cout<<"\n\n\n\n";
-      cout<<"Your final score was: "<<score<<endl;
-      cout<<"We hope you had fun! See you later!!\n\n\n"<<flush;
-      break;
+      char confirm;
+      cout<<"Are you sure you would like to quit? Please enter 'y' for Yes or 'n' for No"<<endl;
+      cin>>confirm;
+      while(confirm!= 'y' && confirm!= 'n'){
+        cout<<"Are you sure you would like to quit? Please enter 'y' for Yes or 'n' for No"<<endl;
+        cin>>confirm;        
+      }
+      if(confirm=='y'){
+        system("CLS");
+        cout<<"\n\n\n\n";
+        cout<<"Your final score was: "<<score<<endl;
+        cout<<"We hope you had fun! See you later!!\n\n\n"<<flush;
+        break;
+      }
+      else{
+        system("CLS");
+        cout<<flush;
+        printboard();
+        continue;
+      }
     }
 
     else{

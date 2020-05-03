@@ -1,8 +1,6 @@
-#include <iostream>
-using namespace std;
+#include "movements.h"
 
 //When right key (d) is pressed
-
 void right(int grid [4][4], int &score) {
   
   //removing empty space to the right each number in the grid

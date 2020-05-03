@@ -1,8 +1,7 @@
-#include <iostream>
-using namespace std;
+#include "movements.h"
+
 
 //When left key (a) is pressed
-
 void left(int grid[4][4], int &score) {
   //removing empty space to the left each number in the grid
   for (int i = 0; i < 4; i++) {

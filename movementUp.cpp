@@ -1,5 +1,5 @@
-#include <iostream>
-using namespace std;
+#include "movements.h"
+
 
 //creating the game logic for when the 'w' (up) key is pressed
 void up(int grid[4][4], int &score){
