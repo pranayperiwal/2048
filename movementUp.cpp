@@ -1,41 +1,55 @@
 #include "movements.h"
+#include "checkMove.h"
+#include "finalMovements.h"
+
 
 
 //creating the game logic for when the 'w' (up) key is pressed
-void up(int grid[4][4], int &score){
+bool up(int currentGameState[4][4], int **previousGameState, int &score){
 
-    //removing empty space above each number in the grid
+    //creating a temporary game state
+    int tempGameState[4][4];
+
+    //intializing temp to current game state
+    for(int i =0;i<4;i++){
+        for(int j =0;j<4;j++){
+            tempGameState[i][j]= currentGameState[i][j];
+        }
+    }
+
+    //removing empty space above each number in the tempGameState
     for(int j =0;j<4;j++){
         for(int i =1;i<4;i++){
             int count=0; //calculates how many empty spaces above a number
-            while(grid[i-1-count][j]==0 && (i-1-count)>=0){
+            while(tempGameState[i-1-count][j]==0 && (i-1-count)>=0){
                 count++;
             }
             //shifts the number to the upmost position empty space possible
             if(count>0){
-                grid[i-count][j]=grid[i][j];
-                grid[i][j]=0;
+                tempGameState[i-count][j]=tempGameState[i][j];
+                tempGameState[i][j]=0;
             }
         }
     }
 
-    //moving and combining the grid numbers
+
+    //moving and combining the tempGameState numbers
     for(int j=0;j<4;j++){
         for(int i =0;i<4;i++){
             
-            //combining the grid numbers if they are the same
+            //combining the tempGameState numbers if they are the same
             if(i<3){
-                if(grid[i][j]==grid[i+1][j]){
-                    grid[i][j]=grid[i][j]+grid[i+1][j];
-                    grid[i+1][j] = 0;
-                    score+=grid[i][j]+grid[i+1][j]; //increasing the score if a combination happens
+                if(tempGameState[i][j]==tempGameState[i+1][j]){
+                    tempGameState[i][j]=tempGameState[i][j]+tempGameState[i+1][j];
+                    tempGameState[i+1][j] = 0;
+                    score+=tempGameState[i][j]+tempGameState[i+1][j]; //increasing the score if a combination happens
                 }
             }
-            //to check again if there is a free space created above a grid and then moving the number there
+            //to check again if there is a free space created above a tempGameState and then moving the number there
             if(i>0){
-                if(grid[i-1][j]==0){
-                    grid[i-1][j]=grid[i][j];
-                    grid[i][j]=0;
+                if(tempGameState[i-1][j]==0){
+                    tempGameState[i-1][j]=tempGameState[i][j];
+                    tempGameState[i][j]=0;
                 }
             }
             
@@ -43,5 +57,83 @@ void up(int grid[4][4], int &score){
         
     }
 
+    //checking if move made makes a change to the game status
+    if(validMove(currentGameState, tempGameState)){
+        //making changes to previous and current game state if a valid move is made
+        for(int i =0;i<4;i++){
+            for(int j =0;j<4;j++){
+                previousGameState[i][j]=currentGameState[i][j];
+                currentGameState[i][j]= tempGameState[i][j];
+            }
+        }
+
+        return true;
+    }
+    else{
+        return false;
+    }
+    
 }
 
+//function called when the board is full to check if the up move is possible
+bool upFinal(int currentGameState[4][4], int **previousGameState, int &score){
+
+    //creating a temporary game state
+    int tempGameState[4][4];
+
+    //intializing temp to current game state
+    for(int i =0;i<4;i++){
+        for(int j =0;j<4;j++){
+            tempGameState[i][j]= currentGameState[i][j];
+        }
+    }
+
+    //removing empty space above each number in the tempGameState
+    for(int j =0;j<4;j++){
+        for(int i =1;i<4;i++){
+            int count=0; //calculates how many empty spaces above a number
+            while(tempGameState[i-1-count][j]==0 && (i-1-count)>=0){
+                count++;
+            }
+            //shifts the number to the upmost position empty space possible
+            if(count>0){
+                tempGameState[i-count][j]=tempGameState[i][j];
+                tempGameState[i][j]=0;
+            }
+        }
+    }
+
+
+    //moving and combining the tempGameState numbers
+    for(int j=0;j<4;j++){
+        for(int i =0;i<4;i++){
+            
+            //combining the tempGameState numbers if they are the same
+            if(i<3){
+                if(tempGameState[i][j]==tempGameState[i+1][j]){
+                    tempGameState[i][j]=tempGameState[i][j]+tempGameState[i+1][j];
+                    tempGameState[i+1][j] = 0;
+                    score+=tempGameState[i][j]+tempGameState[i+1][j]; //increasing the score if a combination happens
+                }
+            }
+            //to check again if there is a free space created above a tempGameState and then moving the number there
+            if(i>0){
+                if(tempGameState[i-1][j]==0){
+                    tempGameState[i-1][j]=tempGameState[i][j];
+                    tempGameState[i][j]=0;
+                }
+            }
+            
+        }
+        
+    }
+
+    //checking if move made makes a change to the game status
+    if(validMove(currentGameState, tempGameState)){
+        return false;
+    }
+    else{
+        return true;
+    }
+    
+}

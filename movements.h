@@ -1,9 +1,11 @@
 //header file for all 4 types of movements
 
-#pragma once
+#ifndef MOVEMENTS_H
+#define MOVEMENTS_H
 
-void left(int grid[4][4], int &score);
-void right(int grid[4][4], int &score);
-void up(int grid[4][4], int &score);
-void down(int grid[4][4], int &score);
+bool left(int currentGameState[4][4], int **previousGameState, int &score);
+bool right(int currentGameState[4][4], int **previousGameState, int &score);
+bool up(int currentGameState[4][4], int **previousGameState, int &score);
+bool down(int currentGameState[4][4], int **previousGameState, int &score);
 
+#endif

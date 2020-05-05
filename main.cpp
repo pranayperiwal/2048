@@ -4,14 +4,19 @@
 #include <stdlib.h>
 #include <iomanip>
 #include "movements.h"
+#include "checkMove.h"
+#include "undo.h"
+#include "finalMovements.h"
 using namespace std;
 
-int grid[4][4];
+
+//creating inital variables
+int currentGameState[4][4];
+int **previousGameState = new int*[4];
 int score=0;
-void left(int grid[4][4], int &score);
 
 
-//generates how many ever random numbers on the grid as the parameter "number"
+//generates how many ever random numbers on the currentGameState as the parameter "number"
 void randomNum(int number){
   //generation of random coordinates on the map and filling it in with 2 or 4
   srand(time(NULL));
@@ -22,44 +27,54 @@ void randomNum(int number){
     int randj = rand()%4;
     //generating a random number between 0 and 9
     int probability = rand()%10;
-    if(grid[randi][randj]==0){
+    if(currentGameState[randi][randj]==0){
       if(probability<9){ //this creates a 90% chance as the probablity of it being less than 9 is 90% and we assign 2 for time
-        grid[randi][randj]=2;
+        currentGameState[randi][randj]=2;
       }
       else
       {
-        grid[randi][randj]=4; //for the remaining 10% we generate a 4 as a starting value
+        currentGameState[randi][randj]=4; //for the remaining 10% we generate a 4 as a starting value
       }
       count++;
     }
   }
 }
 
-//initializes the grid to all 0s
+//initializes the currentGameState to all 0s
 void newgame() {
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j ++) {
-      grid[i][j] = 0;
+      currentGameState[i][j] = 0;
     }
   }
+  //adds 2 random numbers to the currentGameState
   randomNum(2);
+
+  //initializing all the values in previous game state to 0
+  for(int i =0;i<4;i++){
+      for(int j =0;j<4;j++){
+          previousGameState[i][j]=0;
+      }
+  }
 }
 
-
-
 //prints the current board
-void printboard() {
-  cout << "n: start new game, w: up, a: left, s: down, d: right, q: quit\n\n" << endl;
-  cout<<"          Score: "<<score<<'\n'<<endl;
+void printboard(bool valid) {
+  if(!valid){
+    cout<<"   Score:"<<score<<"  Not a valid move!\n"<<endl;
+  }
+  else{
+    cout<<"          Score: "<<score<<'\n'<<endl;
+  }
   cout<<"- * - * - * - * - * - * - * -"<<endl;
   for (int i = 0; i < 4; i++) {
     cout<<"|";
     for (int j = 0; j < 4; j ++){
-        if (grid[i][j] == 0)
+        if (currentGameState[i][j] == 0)
           cout<<"      |";
         else
         {
-          cout <<setw(5)<< grid[i][j] << " |";
+          cout <<setw(5)<< currentGameState[i][j] << " |";
         }
       }
     cout<<endl;
@@ -67,84 +82,191 @@ void printboard() {
   }
 }
 
-//checks whether all the places in the grid are filled up or not and returns
-//a boolean.
 
-bool checkMove(int grid[4][4]) {
-  //counter used to keep a track whether 16 elements of the grid are 0 or not
-  int counter = 0;
-  
-  for (int i = 0; i < 4; i++) {
-    for (int j = 0; j < 4; j++) {
-      if (grid[i][j] == 0) {
-        counter ++;
-      }
-    }
-  }
-  if (counter == 16) {
-    return false;
-  } else {
+//checking for final game state conditions in case of loss
+bool checkLoss(){
+  if(upFinal(currentGameState, previousGameState, score) && downFinal(currentGameState, previousGameState, score) 
+  && rightFinal(currentGameState, previousGameState, score) && leftFinal(currentGameState, previousGameState, score)){
     return true;
   }
+  else return false;
 }
 
+
 int main() {
+  //initializing the dynamic 2D array to store the previous game state
+  for(int i = 0; i < 4; ++i) {
+      previousGameState[i] = new int[4];
+  }
+  
+  int numberOfMoves =0; //stores the number of moves made
 
   while (true) {
+    
+    bool movesPoss=false; //boolean to check if there is any space empty on the board
+    for(int i =0;i<4;i++){
+      for(int j =0;j<4;j++){
+        if(currentGameState[i][j]==0){
+          movesPoss=true;
+          break;
+        }
+      }
+    }
 
-    cout << "n: start new game, w: up, a: left, s: down, d: right, q: quit" << endl;
+    //check for winning condition
+    for(int i =0;i<4;i++){
+      for(int j =0;j<4;j++){
+        if(currentGameState[i][j]==2048){
+          cout<<"You win the game!! :)"<<endl;
+          cout<<"Your final score was: "<<score<<endl;
+          break;
+        }
+      }
+    }
+
+    //if no spaces on the baord are left, do these following checks
+    if(!movesPoss){
+      if(checkLoss()){
+        cout<<"Unfortunately no more valid moves are possible and the game is lost! :("<<endl;
+        char inputletter;
+        while(true){
+          cout<<"n: start new game, u:undo, q: quit"<<endl;
+          cin >> inputletter;
+          //new game
+          if(inputletter == 'n'){
+            newgame();
+            system("CLS");
+            cout<<"Starting a new game for you!\n\n"<<flush; 
+            printboard(true);
+            score=0;
+            break;
+          }
+
+          //undo
+          else if(inputletter =='u'){
+            undo(currentGameState, previousGameState);
+            system("CLS");
+            cout<<flush;
+            printboard(true);
+            break;
+          }
+
+          //checks for quitting the game
+          else if (inputletter == 'q') {
+            char confirm;
+            cout<<"Are you sure you would like to quit? Please enter 'y' for Yes or 'n' for No"<<endl;
+            cin>>confirm;
+            while(confirm!= 'y' && confirm!= 'n'){
+              cout<<"Are you sure you would like to quit? Please enter 'y' for Yes or 'n' for No"<<endl;
+              cin>>confirm;        
+            }
+            if(confirm=='y'){
+              system("CLS");
+              cout<<"\n\n\n\n";
+              cout<<"Your final score was: "<<score<<endl;
+              cout<<"We hope you had fun! See you later!!\n\n\n"<<flush;
+              break;
+            }
+            else{
+              system("CLS");
+              cout<<flush;
+              printboard(true);
+              continue;
+            }
+          }
+
+          else{
+            cout<<"Please enter a correct input as given below."<<endl;
+          }
+        }
+
+        if(inputletter == 'q'){
+          break;
+        }
+        else continue;
+        
+      }
+    }
+
+
+    cout << "n: start new game, w: up, a: left, s: down, d: right, u:undo, q: quit" << endl;
     char inputletter;
     cin >> inputletter;
 
+    //starting a new game
     if (inputletter == 'n') {
       newgame();
       system("CLS");
       cout<<"Starting a new game for you!\n\n"<<flush; 
-      printboard();
+      printboard(true);
     }
 
+    //up move
     else if (inputletter == 'w') {
       system("CLS");
       cout<<flush; //clears the screen for the new board
-      up(grid, score);
-      randomNum(1);
-      printboard();
-      if (checkMove(grid) == false) {
-        cout << "Sorry! No more possible moves!" << endl;
-        break;
+      if(up(currentGameState, previousGameState, score)){
+        randomNum(1);
+        printboard(true);
+        numberOfMoves++;
+      }
+      else{
+        printboard(false);
       }
     }
 
+    //down move
     else if (inputletter == 's') {
       system("CLS");
       cout<<flush;
-      down(grid, score);
-      randomNum(1);
-      printboard();
+      if(down(currentGameState, previousGameState, score)){
+        randomNum(1);
+        printboard(true);
+        numberOfMoves++;
+      }
+      else{
+        printboard(false);
+      }
     }
 
+    //right move
     else if (inputletter == 'd') {
       system("CLS");
       cout<<flush;
-      right(grid, score);
-      randomNum(1);
-      printboard();
-      if (checkMove(grid) == false) {
-        cout << "Sorry! No more possible moves!" << endl;
-        break;
+      if(right(currentGameState, previousGameState, score)){
+        randomNum(1);
+        printboard(true);
+        numberOfMoves++;
       }
+      else{
+        printboard(false);
+      }
+
     }
 
+    //left move
     else if (inputletter == 'a') {
       system("CLS");
       cout<<flush;
-      left(grid, score);
-      randomNum(1);
-      printboard();
-      if (checkMove(grid) == false) {
-        cout << "Sorry! No more possible moves!" << endl;
-        break;
+      if(left(currentGameState, previousGameState, score)){
+        randomNum(1);
+        printboard(true);
+        numberOfMoves++;
       }
+      else{
+        printboard(false);
+      }
+ 
+    }
+
+    //for undoing the move
+    else if(inputletter =='u'){
+      if(numberOfMoves>=1){
+         undo(currentGameState, previousGameState);
+      }
+      system("CLS");
+      cout<<flush;
+      printboard(true);
     }
 
     //checks for quitting the game
@@ -166,7 +288,7 @@ int main() {
       else{
         system("CLS");
         cout<<flush;
-        printboard();
+        printboard(true);
         continue;
       }
     }
@@ -175,6 +297,12 @@ int main() {
       cout<<"Please enter a correct input as given below."<<endl;
     }
   }
+
+  //deleting the previous game state
+  for(int i = 0; i < 4; ++i) {
+        delete [] previousGameState[i];
+    }
+  delete [] previousGameState;
 
   return 0;
 }
