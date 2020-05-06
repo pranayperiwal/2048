@@ -198,6 +198,7 @@ int main() {
     string inputletter;
     cin >> inputletter;
 
+    //to check if input is only one character or more than one
     if (inputletter.length() > 1) {
       system("CLS");
       printboard(true);
@@ -213,6 +214,7 @@ int main() {
       printboard(true);
     }
 
+    //saving and quitting
     else if (inputletter == "z") {
       cout << "Are you sure you want to save and quit? Please enter 'y' for yes, and 'no' for no. " << endl;
       char inp;
@@ -250,6 +252,7 @@ int main() {
       }
     }
 
+    //loading a previous game
     else if (inputletter == "l") {
       system("CLS");
       cout<<flush;
@@ -311,8 +314,6 @@ int main() {
         printboard(false);
       }
     }
-
-
 
     //right move
     else if (inputletter == "d") {
