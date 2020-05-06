@@ -7,6 +7,8 @@
 #include "checkMove.h"
 #include "undo.h"
 #include "finalMovements.h"
+#include <fstream>
+
 using namespace std;
 
 
@@ -85,7 +87,7 @@ void printboard(bool valid) {
 
 //checking for final game state conditions in case of loss
 bool checkLoss(){
-  if(upFinal(currentGameState, previousGameState, score) && downFinal(currentGameState, previousGameState, score) 
+  if(upFinal(currentGameState, previousGameState, score) && downFinal(currentGameState, previousGameState, score)
   && rightFinal(currentGameState, previousGameState, score) && leftFinal(currentGameState, previousGameState, score)){
     return true;
   }
@@ -98,11 +100,11 @@ int main() {
   for(int i = 0; i < 4; ++i) {
       previousGameState[i] = new int[4];
   }
-  
+
   int numberOfMoves =0; //stores the number of moves made
 
   while (true) {
-    
+
     bool movesPoss=false; //boolean to check if there is any space empty on the board
     for(int i =0;i<4;i++){
       for(int j =0;j<4;j++){
@@ -136,7 +138,7 @@ int main() {
           if(inputletter == 'n'){
             newgame();
             system("CLS");
-            cout<<"Starting a new game for you!\n\n"<<flush; 
+            cout<<"Starting a new game for you!\n\n"<<flush;
             printboard(true);
             score=0;
             break;
@@ -158,7 +160,7 @@ int main() {
             cin>>confirm;
             while(confirm!= 'y' && confirm!= 'n'){
               cout<<"Are you sure you would like to quit? Please enter 'y' for Yes or 'n' for No"<<endl;
-              cin>>confirm;        
+              cin>>confirm;
             }
             if(confirm=='y'){
               system("CLS");
@@ -184,12 +186,13 @@ int main() {
           break;
         }
         else continue;
-        
+
       }
     }
 
 
-    cout << "n: start new game, w: up, a: left, s: down, d: right, u:undo, q: quit" << endl;
+    cout << "n: start new game, w: up, a: left, s: down, d: right" << endl;
+    cout << "u: undo, q: quit, z: save and quit, l: load" << endl;
     char inputletter;
     cin >> inputletter;
 
@@ -197,9 +200,72 @@ int main() {
     if (inputletter == 'n') {
       newgame();
       system("CLS");
-      cout<<"Starting a new game for you!\n\n"<<flush; 
+      cout<<"Starting a new game for you!\n\n"<<flush;
       printboard(true);
     }
+
+    else if (inputletter == 'z') {
+      cout << "Are you sure you want to save and quit? Please enter 'y' for yes, and 'no' for no. " << endl;
+      char inp;
+      cin >> inp;
+      if (inp == 'y') {
+      cout << "The current state of board is shown below. " << endl;
+      cout << "You have saved the game! Press 'l' to reload the game next time and continue from here. " << endl;
+      cout << "Hope you have a good day!" << endl;
+
+      system("CLS");
+      cout<<flush;
+      printboard(true);
+
+      ofstream fout;
+      fout.open("tempstate.txt");
+
+      //First line in the output txt file will have score
+      fout << score << endl;
+
+      //Next 16 lines will have the individual integers of each element
+      //of currentGameState
+      for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+          fout << currentGameState[i][j] << endl;
+        }
+      }
+      fout.close();
+      break;
+    }
+      else {
+        printboard(true);
+      }
+    }
+
+    else if (inputletter == 'l') {
+      system("CLS");
+      cout<<flush;
+
+      ifstream fin;
+      fin.open("tempstate.txt");
+      int arr[16];
+      int tempscore;
+      fin >> tempscore;
+      score = tempscore;
+      int count = 0;
+      while (!fin.eof()) {
+        fin >> arr[count];
+        count ++;
+      }
+
+      int counter = 0;
+      for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+          currentGameState[i][j] = arr[counter];
+          counter ++;
+        }
+      }
+      printboard(true);
+      fin.close();
+
+    }
+
 
     //up move
     else if (inputletter == 'w') {
@@ -256,7 +322,7 @@ int main() {
       else{
         printboard(false);
       }
- 
+
     }
 
     //for undoing the move
@@ -276,7 +342,7 @@ int main() {
       cin>>confirm;
       while(confirm!= 'y' && confirm!= 'n'){
         cout<<"Are you sure you would like to quit? Please enter 'y' for Yes or 'n' for No"<<endl;
-        cin>>confirm;        
+        cin>>confirm;
       }
       if(confirm=='y'){
         system("CLS");
