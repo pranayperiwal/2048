@@ -1,7 +1,7 @@
 # COMP1340-Game
 Repository used to edit the code by the team members.
 
-2048
+Game name: 2048
 
 1. Brief Identification of Team Members
 
