@@ -211,6 +211,40 @@ int main() {
       printboard(true);
     }
 
+    else if (inputletter == "l") {
+      system("CLS");
+      cout<<flush;
+
+      ifstream fin;
+      fin.open("savedstate/tempstate.txt");
+
+      //Checks if the loaded file exists or not. Accordingly prompts the user.
+      if (fin.fail()) {
+        cout << "The loaded file does not exist. Please start a new game!" << endl;
+      } else {
+        int arr[16];
+        int tempscore;
+        fin >> tempscore;
+        score = tempscore;
+        int count = 0;
+        while (!fin.eof()) {
+          fin >> arr[count];
+          count ++;
+        }
+
+        int counter = 0;
+        for (int i = 0; i < 4; i++) {
+          for (int j = 0; j < 4; j++) {
+            currentGameState[i][j] = arr[counter];
+            counter ++;
+          }
+        }
+        printboard(true);
+      }
+      fin.close();
+
+    }
+
     else if (inputletter == "z") {
       cout << "Are you sure you want to save and quit? Please enter 'y' for yes, and 'no' for no. " << endl;
       char inp;
@@ -249,39 +283,7 @@ int main() {
     }
 
 
-    else if (inputletter == "l") {
-      system("CLS");
-      cout<<flush;
 
-      ifstream fin;
-      fin.open("savedstate/tempstate.txt");
-
-      //Checks if the loaded file exists or not. Accordingly prompts the user.
-      if (fin.fail()) {
-        cout << "The loaded file does not exist. Please start a new game!" << endl;
-      } else {
-        int arr[16];
-        int tempscore;
-        fin >> tempscore;
-        score = tempscore;
-        int count = 0;
-        while (!fin.eof()) {
-          fin >> arr[count];
-          count ++;
-        }
-
-        int counter = 0;
-        for (int i = 0; i < 4; i++) {
-          for (int j = 0; j < 4; j++) {
-            currentGameState[i][j] = arr[counter];
-            counter ++;
-          }
-        }
-        printboard(true);
-      }
-      fin.close();
-
-    }
 
 
     //up move
