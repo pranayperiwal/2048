@@ -197,7 +197,10 @@ int main() {
     cin >> inputletter;
 
     if (inputletter.length() > 1) {
+      system("CLS");
+      printboard(true);
       cout << "Please enter a valid input! Valid input contains only 1 character." << endl;
+      continue;
     }
 
     //starting a new game
@@ -219,7 +222,7 @@ int main() {
 
       system("CLS");
       cout<<flush;
-      printboard(true);
+      cout<<"Thank you for playing the game! It has been saved successfully."<<endl;
 
       ofstream fout;
       fout.open("tempstate.txt");
@@ -364,6 +367,8 @@ int main() {
     }
 
     else{
+      system("CLS");
+      printboard(true);
       cout<<"Please enter a correct input as given below."<<endl;
     }
   }
