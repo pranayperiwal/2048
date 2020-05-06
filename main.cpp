@@ -193,18 +193,22 @@ int main() {
 
     cout << "n: start new game, w: up, a: left, s: down, d: right" << endl;
     cout << "u: undo, q: quit, z: save and quit, l: load" << endl;
-    char inputletter;
+    string inputletter;
     cin >> inputletter;
 
+    if (inputletter.length() > 1) {
+      cout << "Please enter a valid input! Valid input contains only 1 character." << endl;
+    }
+
     //starting a new game
-    if (inputletter == 'n') {
+    if (inputletter == "n") {
       newgame();
       system("CLS");
       cout<<"Starting a new game for you!\n\n"<<flush;
       printboard(true);
     }
 
-    else if (inputletter == 'z') {
+    else if (inputletter == "z") {
       cout << "Are you sure you want to save and quit? Please enter 'y' for yes, and 'no' for no. " << endl;
       char inp;
       cin >> inp;
@@ -238,7 +242,7 @@ int main() {
       }
     }
 
-    else if (inputletter == 'l') {
+    else if (inputletter == "l") {
       system("CLS");
       cout<<flush;
 
@@ -268,7 +272,7 @@ int main() {
 
 
     //up move
-    else if (inputletter == 'w') {
+    else if (inputletter == "w") {
       system("CLS");
       cout<<flush; //clears the screen for the new board
       if(up(currentGameState, previousGameState, score)){
@@ -282,7 +286,7 @@ int main() {
     }
 
     //down move
-    else if (inputletter == 's') {
+    else if (inputletter == "s") {
       system("CLS");
       cout<<flush;
       if(down(currentGameState, previousGameState, score)){
@@ -296,7 +300,7 @@ int main() {
     }
 
     //right move
-    else if (inputletter == 'd') {
+    else if (inputletter == "d") {
       system("CLS");
       cout<<flush;
       if(right(currentGameState, previousGameState, score)){
@@ -311,7 +315,7 @@ int main() {
     }
 
     //left move
-    else if (inputletter == 'a') {
+    else if (inputletter == "a") {
       system("CLS");
       cout<<flush;
       if(left(currentGameState, previousGameState, score)){
@@ -326,7 +330,7 @@ int main() {
     }
 
     //for undoing the move
-    else if(inputletter =='u'){
+    else if(inputletter =="u"){
       if(numberOfMoves>=1){
          undo(currentGameState, previousGameState);
       }
@@ -336,7 +340,7 @@ int main() {
     }
 
     //checks for quitting the game
-    else if (inputletter == 'q') {
+    else if (inputletter == "q") {
       char confirm;
       cout<<"Are you sure you would like to quit? Please enter 'y' for Yes or 'n' for No"<<endl;
       cin>>confirm;
