@@ -8,6 +8,8 @@
 #include "undo.h"
 #include "finalMovements.h"
 #include <fstream>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 using namespace std;
 
@@ -224,8 +226,11 @@ int main() {
       cout<<flush;
       cout<<"Thank you for playing the game! It has been saved successfully."<<endl;
 
+      int makedirectory;
+      makedirectory = system("mkdir -p savedstate");
+
       ofstream fout;
-      fout.open("tempstate.txt");
+      fout.open("savedstate/tempstate.txt");
 
       //First line in the output txt file will have score
       fout << score << endl;
@@ -250,29 +255,34 @@ int main() {
       cout<<flush;
 
       ifstream fin;
-      fin.open("tempstate.txt");
-      int arr[16];
-      int tempscore;
-      fin >> tempscore;
-      score = tempscore;
-      int count = 0;
-      while (!fin.eof()) {
-        fin >> arr[count];
-        count ++;
-      }
+      fin.open("savedstate/tempstate.txt");
 
-      int counter = 0;
-      for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-          currentGameState[i][j] = arr[counter];
-          counter ++;
+      //Checks if the loaded file exists or not. Accordingly prompts the user.
+      if (fin.fail()) {
+        cout << "The loaded file does not exist. Please start a new game!" << endl;
+      } else {
+        int arr[16];
+        int tempscore;
+        fin >> tempscore;
+        score = tempscore;
+        int count = 0;
+        while (!fin.eof()) {
+          fin >> arr[count];
+          count ++;
         }
+
+        int counter = 0;
+        for (int i = 0; i < 4; i++) {
+          for (int j = 0; j < 4; j++) {
+            currentGameState[i][j] = arr[counter];
+            counter ++;
+          }
+        }
+        printboard(true);
       }
-      printboard(true);
       fin.close();
 
     }
-
 
     //up move
     else if (inputletter == "w") {
@@ -287,7 +297,7 @@ int main() {
         printboard(false);
       }
     }
-
+    
     //down move
     else if (inputletter == "s") {
       system("CLS");
@@ -301,6 +311,8 @@ int main() {
         printboard(false);
       }
     }
+
+
 
     //right move
     else if (inputletter == "d") {
