@@ -276,13 +276,19 @@ int main() {
           }
         }
         fout.close();
-      } 
+      }
     }
 
     else if (inputletter == "z") {
       cout << "Are you sure you want to save and quit? Please enter 'y' for yes, and 'no' for no. " << endl;
       char inp;
       cin >> inp;
+
+      while(inp!= 'y' && inp!= 'n'){
+        cout<<"Are you sure you would like to save and quit? Please enter 'y' for Yes or 'n' for No"<<endl;
+        cin>>inp;
+      }
+
       if (inp == 'y') {
       cout << "The current state of board is shown below. " << endl;
       cout << "You have saved the game! Press 'l' to reload the game next time and continue from here. " << endl;
