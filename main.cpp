@@ -200,6 +200,7 @@ int main() {
 
     if (inputletter.length() > 1) {
       cout << "Please enter a valid input! Valid input contains only 1 character." << endl;
+      cout << endl;
     }
 
     //starting a new game
@@ -247,6 +248,7 @@ int main() {
       }
     }
 
+
     else if (inputletter == "l") {
       system("CLS");
       cout<<flush;
@@ -281,6 +283,7 @@ int main() {
 
     }
 
+
     //up move
     else if (inputletter == "w") {
       system("CLS");
@@ -294,7 +297,7 @@ int main() {
         printboard(false);
       }
     }
-    
+
     //down move
     else if (inputletter == "s") {
       system("CLS");
