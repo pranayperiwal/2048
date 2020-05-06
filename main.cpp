@@ -194,7 +194,7 @@ int main() {
 
 
     cout << "n: start new game, w: up, a: left, s: down, d: right" << endl;
-    cout << "u: undo, q: quit, z: save and quit, l: load" << endl;
+    cout << "u: undo, q: quit, z: save and quit, x:save, l: load" << endl;
     string inputletter;
     cin >> inputletter;
 
@@ -243,6 +243,40 @@ int main() {
       }
       fin.close();
 
+    }
+
+    else if (inputletter == "x") {
+
+      cout << "You are about to save the game state. Are you sure you want to continue?" << endl;
+      cout << "Please enter 'y' for yes, and 'no' for no." << endl;
+
+      char inp;
+      cin >> inp;
+
+      if (inp == 'y') {
+
+        system("CLS");
+        cout<<flush;
+        printboard(true);
+
+        int makedirectory;
+        makedirectory = system("mkdir -p savedstate");
+
+        ofstream fout;
+        fout.open("savedstate/tempstate.txt");
+
+        //First line in the output txt file will have score
+        fout << score << endl;
+
+        //Next 16 lines will have the individual integers of each element
+        //of currentGameState
+        for (int i = 0; i < 4; i++) {
+          for (int j = 0; j < 4; j++) {
+            fout << currentGameState[i][j] << endl;
+          }
+        }
+        fout.close();
+      } 
     }
 
     else if (inputletter == "z") {
