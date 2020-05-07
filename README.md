@@ -52,5 +52,9 @@ d) Left
 
 c) GitHub Repo
 
+Link for the video and gameplay with explanation:
+https://drive.google.com/drive/folders/1hSCnzt6MycVyaZ_aQQ_UvQE0uekhlePZ?usp=sharing
+We have changed the settings to anyone with the link can view the video. 
+
 The github repository where both the students have been added as contributors:
 https://github.com/prateekkher/2048
