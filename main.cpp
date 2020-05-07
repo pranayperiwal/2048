@@ -98,14 +98,14 @@ char quittingGame(){
     cin>>confirm;
   }
   if(confirm=='y'){
-    system("CLS");
+    system("clear");
     cout<<"\n\n\n\n";
     cout<<"Your final score was: "<<score<<endl;
     cout<<"We hope you had fun! See you later!!\n\n\n"<<flush;
     return 'y';
   }
   else{
-    system("CLS");
+    system("clear");
     cout<<flush;
     printboard(true);
     return 'n';
@@ -115,7 +115,7 @@ char quittingGame(){
 //to check if only letter is entered
 bool validInput(string inputletter){
   if (inputletter.length() > 1) {
-    system("CLS");
+    system("clear");
     printboard(true);
     cout << "Please enter a valid input! Valid input contains only 1 character." << endl;
     return false;
@@ -231,18 +231,18 @@ int main() {
       }  
       if(inp=="y"){
         newgame();
-        system("CLS");
+        system("clear");
         cout<<"Starting a new game for you!\n\n"<<flush;
         printboard(true);
       }
       else{
         if(numberOfMoves==0){
-          system("CLS");
+          system("clear");
           cout<<flush;
           continue;
         }
         else{
-          system("CLS");
+          system("clear");
           cout<<flush;
           printboard(true);
         }
@@ -273,7 +273,7 @@ int main() {
       
       //if person wants to load from previous state
       if(inp=="y"){
-        system("CLS");
+        system("clear");
         cout<<flush;
 
         ifstream fin;
@@ -281,7 +281,7 @@ int main() {
 
         //Checks if the loaded file exists or not. Accordingly prompts the user.
         if (fin.fail()) {
-          system("CLS");
+          system("clear");
           cout<<"No saved state available!\n" <<flush;
           printboard(true);
         } 
@@ -310,7 +310,7 @@ int main() {
       }
       //if person does not wish to load drom previous state 
       else{
-        system("CLS");
+        system("clear");
         cout<<flush;
         printboard(true);
       }
@@ -336,7 +336,7 @@ int main() {
 
       if (inp == "y") {
 
-        system("CLS");
+        system("clear");
         cout<<flush;
         printboard(true);
 
@@ -345,7 +345,7 @@ int main() {
         
       }
       else{
-        system("CLS");
+        system("clear");
         cout<<flush;
         printboard(true);
       }
@@ -381,7 +381,7 @@ int main() {
       break;
     }
       else {
-        system("CLS");
+        system("clear");
         cout<<flush;
         printboard(true);
       }
@@ -465,7 +465,7 @@ int main() {
     }
 
     else{
-      system("CLS");
+      system("clear");
       printboard(true);
       cout<<"Please enter a correct input as given below."<<endl;
     }
