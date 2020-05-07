@@ -3,10 +3,12 @@
 #include "../header/finalMovements.h"
 
 //creating the game logic for when the 's' (down) key is pressed
-bool down(int currentGameState[4][4], int **previousGameState, int &score){
+bool down(int currentGameState[4][4], int **previousGameState, int &score, int &prevScore){
 
     //creating a temporary game state
     int tempGameState[4][4];
+    //storing the score temporarily
+    int tempScore=score;
 
     //intializing temp to current game state
     for(int i =0;i<4;i++){
@@ -39,7 +41,7 @@ bool down(int currentGameState[4][4], int **previousGameState, int &score){
                 if(tempGameState[i][j]==tempGameState[i-1][j]){
                     tempGameState[i][j]=tempGameState[i][j]+tempGameState[i-1][j];
                     tempGameState[i-1][j] = 0;
-                    score+=tempGameState[i][j]+tempGameState[i-1][j];//increasing the score if a combination happens
+                    tempScore+=tempGameState[i][j]+tempGameState[i-1][j];//increasing the score if a combination happens
                 }
             }
             //to check again if there is a free space created above a tempGameState and then moving the number there
@@ -63,6 +65,9 @@ bool down(int currentGameState[4][4], int **previousGameState, int &score){
                 currentGameState[i][j]= tempGameState[i][j];
             }
         }
+        prevScore = score;
+        score=tempScore;
+
         return true;
     }
     else{
