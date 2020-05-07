@@ -28,7 +28,7 @@ The new tile generated after every move would be either a ‘2’ or a ‘4’. 
 ii) Data structures for storing game status :
 The game state would be stored in a 2D array. Therefore, for the project, we will be using a linear form of data structure. We will not be using vectors as we do not need to change the size of our board (the permanent size of the board is 4x4).
 
-iii) Dynamic memory management : We will be using a temporary game state and a live game state for the purpose of the “undo” functionality we aim to implement. The pointers will be pointing to the temporary state of the game so that if the user wants to undo their move, our pointer simply points to the old game state.
+iii) Dynamic memory management : We will be maintaining a previous game state and a current game state for the purpose of the “undo” functionality we aim to implement. The previous game state would be maintained in a dynamic 2D array. If undo move is made, the current state would simply point to the previous state and the board is changed. The previous game state is deleted before the game is closed.
 
 iv) File input/output (e.g., for loading/saving game status) : We will implement Undo, Quit, New Game functions. When there are no moves left, or the user wants to quit the game, we will be storing that specific state of the game at that point of time in a new output file, and displaying that on the terminal. Further, we have implemented the features of quit and save, save, and just quit. When the user saves, we output the game state to another folder which contains the saved game state. The user can retrieve the game state by loading this game state again, and continuing to play. The saved game state also preserves the user score.
 
@@ -41,13 +41,14 @@ a) Up
 b) Down
 c) Right
 d) Left
-2. Creating a random new tile with 2 90% of the time and 4 10% of the time
-3. Giving conditions for the final state and end conditions in the case the player is unable to make any more moves
-4. Restart of the game
-5. Quitting the game
-6. Saving the game state
-7. Quitting and saving the game state
-8. Undo move by 1 step
+2. To check if a valid move is made and only then create a random tile
+3. Creating a random new tile with 2 90% of the time and 4 10% of the time
+4. Giving conditions for the final state and end conditions in the case the player is unable to make any more moves
+5. Restart of the game
+6. Quitting the game
+7. Saving the game state
+8. Quitting and saving the game state
+9. Undo move by 1 step
 
 c) GitHub Repo
 
