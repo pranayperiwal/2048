@@ -1,6 +1,6 @@
-#include "movements.h"
-#include "checkMove.h"
-#include "finalMovements.h"
+#include "../header/movements.h"
+#include "../header/checkMove.h"
+#include "../header/finalMovements.h"
 
 //creating the game logic for when the 's' (down) key is pressed
 bool down(int currentGameState[4][4], int **previousGameState, int &score){

@@ -1,5 +1,5 @@
-#include "checkMove.h"
-#include "undo.h"
+#include "../header/checkMove.h"
+#include "../header/undo.h"
 
 //checks if the move made generates a new tile or not
 bool validMove(int currentGameState[4][4], int tempGameState[4][4]){

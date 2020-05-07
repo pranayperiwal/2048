@@ -1,6 +1,6 @@
-#include "movements.h"
-#include "checkMove.h"
-#include "finalMovements.h"
+#include "../header/movements.h"
+#include "../header/checkMove.h"
+#include "../header/finalMovements.h"
 
 //When right key (d) is pressed
 bool right(int currentGameState[4][4], int **previousGameState, int &score){

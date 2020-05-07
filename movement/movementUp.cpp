@@ -1,6 +1,6 @@
-#include "movements.h"
-#include "checkMove.h"
-#include "finalMovements.h"
+#include "../header/movements.h"
+#include "../header/checkMove.h"
+#include "../header/finalMovements.h"
 
 
 

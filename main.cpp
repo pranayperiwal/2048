@@ -3,10 +3,11 @@
 #include <ctime>
 #include <stdlib.h>
 #include <iomanip>
-#include "movements.h"
-#include "checkMove.h"
-#include "undo.h"
-#include "finalMovements.h"
+#include "header/movements.h"
+#include "header/checkMove.h"
+#include "header/undo.h"
+#include "header/endConditions.h"
+#include "header/save.h"
 #include <fstream>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -46,6 +47,7 @@ void randomNum(int number){
 
 //initializes the currentGameState to all 0s
 void newgame() {
+  score=0;
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j ++) {
       currentGameState[i][j] = 0;
@@ -86,14 +88,43 @@ void printboard(bool valid) {
   }
 }
 
+//function called for when quitting the game
+char quittingGame(){
+  char confirm;
+  cout<<"Are you sure you would like to quit? Please enter 'y' for Yes or 'n' for No"<<endl;
+  cin>>confirm;
+  while(confirm!= 'y' && confirm!= 'n'){
+    cout<<"Are you sure you would like to quit? Please enter 'y' for Yes or 'n' for No"<<endl;
+    cin>>confirm;
+  }
+  if(confirm=='y'){
+    system("CLS");
+    cout<<"\n\n\n\n";
+    cout<<"Your final score was: "<<score<<endl;
+    cout<<"We hope you had fun! See you later!!\n\n\n"<<flush;
+    return 'y';
+  }
+  else{
+    system("CLS");
+    cout<<flush;
+    printboard(true);
+    return 'n';
+  }
+}
 
-//checking for final game state conditions in case of loss
-bool checkLoss(){
-  if(upFinal(currentGameState, previousGameState, score) && downFinal(currentGameState, previousGameState, score)
-  && rightFinal(currentGameState, previousGameState, score) && leftFinal(currentGameState, previousGameState, score)){
+//to check if only letter is entered
+bool validInput(string inputletter){
+  if (inputletter.length() > 1) {
+    system("CLS");
+    printboard(true);
+    cout << "Please enter a valid input! Valid input contains only 1 character." << endl;
+    return false;
+  }
+  else
+  {
     return true;
   }
-  else return false;
+  
 }
 
 
@@ -102,10 +133,14 @@ int main() {
   for(int i = 0; i < 4; ++i) {
       previousGameState[i] = new int[4];
   }
-
-  int numberOfMoves =0; //stores the number of moves made
+  
+  //stores the number of moves made
+  int numberOfMoves =0; 
 
   while (true) {
+
+    //check for winning condition
+    winningCondition(currentGameState, score);
 
     bool movesPoss=false; //boolean to check if there is any space empty on the board
     for(int i =0;i<4;i++){
@@ -117,20 +152,9 @@ int main() {
       }
     }
 
-    //check for winning condition
-    for(int i =0;i<4;i++){
-      for(int j =0;j<4;j++){
-        if(currentGameState[i][j]==2048){
-          cout<<"You win the game!! :)"<<endl;
-          cout<<"Your final score was: "<<score<<endl;
-          break;
-        }
-      }
-    }
-
-    //if no spaces on the baord are left, do these following checks
+    //if no spaces on the baord are left, do these following checks for possible loss
     if(!movesPoss){
-      if(checkLoss()){
+      if(losingCondition(currentGameState, previousGameState,score)){
         cout<<"Unfortunately no more valid moves are possible and the game is lost! :("<<endl;
         char inputletter;
         while(true){
@@ -157,26 +181,11 @@ int main() {
 
           //checks for quitting the game
           else if (inputletter == 'q') {
-            char confirm;
-            cout<<"Are you sure you would like to quit? Please enter 'y' for Yes or 'n' for No"<<endl;
-            cin>>confirm;
-            while(confirm!= 'y' && confirm!= 'n'){
-              cout<<"Are you sure you would like to quit? Please enter 'y' for Yes or 'n' for No"<<endl;
-              cin>>confirm;
-            }
-            if(confirm=='y'){
-              system("CLS");
-              cout<<"\n\n\n\n";
-              cout<<"Your final score was: "<<score<<endl;
-              cout<<"We hope you had fun! See you later!!\n\n\n"<<flush;
+            char decision = quittingGame();
+            if(decision =='y')
               break;
-            }
-            else{
-              system("CLS");
-              cout<<flush;
-              printboard(true);
+            else
               continue;
-            }
           }
 
           else{
@@ -184,42 +193,180 @@ int main() {
           }
         }
 
-        if(inputletter == 'q'){
-          break;
-        }
-        else continue;
+        //break out of the game completely
+        if(inputletter == 'q')
+          break;  
+        else 
+          continue;
 
       }
     }
 
 
+    //start of normal output for the game
     cout << "n: start new game, w: up, a: left, s: down, d: right" << endl;
-    cout << "u: undo, q: quit, z: save and quit, l: load" << endl;
+    cout << "u: undo, q: quit, z: save and quit, x:save, l: load" << endl;
     string inputletter;
     cin >> inputletter;
 
     //to check if input is only one character or more than one
-    if (inputletter.length() > 1) {
-      system("CLS");
-      printboard(true);
-      cout << "Please enter a valid input! Valid input contains only 1 character." << endl;
+    if(!validInput(inputletter))
       continue;
-    }
 
     //starting a new game
     if (inputletter == "n") {
-      newgame();
-      system("CLS");
-      cout<<"Starting a new game for you!\n\n"<<flush;
-      printboard(true);
+      cout << "You are about to start a new game. Are you sure you want to continue?" << endl;
+      cout << "Please enter 'y' for Yes, and 'n' for No." << endl;
+
+      string inp;
+      cin >> inp;
+
+      //to check if input is only one character or more than one
+      if(!validInput(inp))
+        continue;
+
+      while(inp!= "y" && inp!= "n"){
+        cout<<"You are about to start a new game. Are you sure you want to continue?'\n'Please enter 'y' for Yes or 'n' for No."<<endl;
+        cin>>inp;
+      }  
+      if(inp=="y"){
+        newgame();
+        system("CLS");
+        cout<<"Starting a new game for you!\n\n"<<flush;
+        printboard(true);
+      }
+      else{
+        if(numberOfMoves==0){
+          system("CLS");
+          cout<<flush;
+          continue;
+        }
+        else{
+          system("CLS");
+          cout<<flush;
+          printboard(true);
+        }
+        
+      }
+        
+      
+
+      
     }
 
-    //saving and quitting
-    else if (inputletter == "z") {
-      cout << "Are you sure you want to save and quit? Please enter 'y' for yes, and 'no' for no. " << endl;
-      char inp;
+    //loading game state
+    else if (inputletter == "l") {
+      cout << "You are about to load the game from a previous state. Are you sure you want to continue?" << endl;
+      cout << "Please enter 'y' for Yes, and 'n' for No." << endl;
+
+      string inp;
       cin >> inp;
-      if (inp == 'y') {
+
+      //to check if input is only one character or more than one
+      if(!validInput(inp))
+        continue;
+
+      while(inp!= "y" && inp!= "n"){
+        cout<<"You are about to load the game from a previous state. Are you sure you want to continue?'\n'Please enter 'y' for Yes or 'n' for No."<<endl;
+        cin>>inp;
+      }  
+      
+      //if person wants to load from previous state
+      if(inp=="y"){
+        system("CLS");
+        cout<<flush;
+
+        ifstream fin;
+        fin.open("savedstate/tempstate.txt");
+
+        //Checks if the loaded file exists or not. Accordingly prompts the user.
+        if (fin.fail()) {
+          system("CLS");
+          cout<<"No saved state available!\n" <<flush;
+          printboard(true);
+        } 
+        else {
+          int arr[16];
+          int tempscore;
+          fin >> tempscore;
+          score = tempscore;
+          int count = 0;
+          while (!fin.eof()) {
+            fin >> arr[count];
+            count ++;
+          }
+
+          int counter = 0;
+          for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+              currentGameState[i][j] = arr[counter];
+              counter ++;
+            }
+          }
+          printboard(true);
+        }
+        fin.close();
+
+      }
+      //if person does not wish to load drom previous state 
+      else{
+        system("CLS");
+        cout<<flush;
+        printboard(true);
+      }
+        
+    }
+
+    //save functionality
+    else if (inputletter == "x") {
+      cout << "You are about to save the game state. Are you sure you want to continue?" << endl;
+      cout << "Please enter 'y' for Yes, and 'n' for No." << endl;
+
+      string inp;
+      cin >> inp;
+
+      //to check if input is only one character or more than one
+      if(!validInput(inp))
+        continue;
+
+      while(inp!= "y" && inp!= "n"){
+        cout<<"You are about to save the game state. Are you sure you want to continue?'\n'Please enter 'y' for Yes or 'n' for No."<<endl;
+        cin>>inp;
+      }
+
+      if (inp == "y") {
+
+        system("CLS");
+        cout<<flush;
+        printboard(true);
+
+        //saving function called from saveQuit.cpp
+        save(currentGameState, score);
+        
+      }
+      else{
+        system("CLS");
+        cout<<flush;
+        printboard(true);
+      }
+    }
+
+    //save and quit functionality
+    else if (inputletter == "z") {
+      cout << "Are you sure you want to save and quit? Please enter 'y' for Yes, and 'no' for No. " << endl;
+      string inp;
+      cin >> inp;
+
+    //to check if input is only one character or more than one
+    if(!validInput(inp))
+      continue;
+
+      while(inp!= "y" && inp!= "n"){
+        cout<<"Are you sure you would like to save and quit? Please enter 'y' for Yes or 'n' for No"<<endl;
+        cin>>inp;
+      }
+
+      if (inp == "y") {
       cout << "The current state of board is shown below. " << endl;
       cout << "You have saved the game! Press 'l' to reload the game next time and continue from here. " << endl;
       cout << "Hope you have a good day!" << endl;
@@ -228,63 +375,16 @@ int main() {
       cout<<flush;
       cout<<"Thank you for playing the game! It has been saved successfully."<<endl;
 
-      int makedirectory;
-      makedirectory = system("mkdir -p savedstate");
-
-      ofstream fout;
-      fout.open("savedstate/tempstate.txt");
-
-      //First line in the output txt file will have score
-      fout << score << endl;
-
-      //Next 16 lines will have the individual integers of each element
-      //of currentGameState
-      for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-          fout << currentGameState[i][j] << endl;
-        }
-      }
-      fout.close();
+      //saving the game
+      save(currentGameState, score);
+      //quits the game
       break;
     }
       else {
+        system("CLS");
+        cout<<flush;
         printboard(true);
       }
-    }
-
-    //loading a previous game
-    else if (inputletter == "l") {
-      system("CLS");
-      cout<<flush;
-
-      ifstream fin;
-      fin.open("savedstate/tempstate.txt");
-
-      //Checks if the loaded file exists or not. Accordingly prompts the user.
-      if (fin.fail()) {
-        cout << "The loaded file does not exist. Please start a new game!" << endl;
-      } else {
-        int arr[16];
-        int tempscore;
-        fin >> tempscore;
-        score = tempscore;
-        int count = 0;
-        while (!fin.eof()) {
-          fin >> arr[count];
-          count ++;
-        }
-
-        int counter = 0;
-        for (int i = 0; i < 4; i++) {
-          for (int j = 0; j < 4; j++) {
-            currentGameState[i][j] = arr[counter];
-            counter ++;
-          }
-        }
-        printboard(true);
-      }
-      fin.close();
-
     }
 
     //up move
@@ -300,7 +400,7 @@ int main() {
         printboard(false);
       }
     }
-    
+
     //down move
     else if (inputletter == "s") {
       system("CLS");
@@ -346,7 +446,7 @@ int main() {
     }
 
     //for undoing the move
-    else if(inputletter =="u"){
+    else if (inputletter == "u"){
       if(numberOfMoves>=1){
          undo(currentGameState, previousGameState);
       }
@@ -357,26 +457,11 @@ int main() {
 
     //checks for quitting the game
     else if (inputletter == "q") {
-      char confirm;
-      cout<<"Are you sure you would like to quit? Please enter 'y' for Yes or 'n' for No"<<endl;
-      cin>>confirm;
-      while(confirm!= 'y' && confirm!= 'n'){
-        cout<<"Are you sure you would like to quit? Please enter 'y' for Yes or 'n' for No"<<endl;
-        cin>>confirm;
-      }
-      if(confirm=='y'){
-        system("CLS");
-        cout<<"\n\n\n\n";
-        cout<<"Your final score was: "<<score<<endl;
-        cout<<"We hope you had fun! See you later!!\n\n\n"<<flush;
+      char decision = quittingGame();
+      if(decision =='y')
         break;
-      }
-      else{
-        system("CLS");
-        cout<<flush;
-        printboard(true);
+      else
         continue;
-      }
     }
 
     else{
