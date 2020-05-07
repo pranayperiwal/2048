@@ -283,7 +283,9 @@ int main() {
         if (fin.fail()) {
           system("clear");
           cout<<"No saved state available!\n" <<flush;
+          
           printboard(true);
+          continue;
         } 
         else {
           int arr[16];
@@ -308,11 +310,19 @@ int main() {
         fin.close();
 
       }
-      //if person does not wish to load drom previous state 
+      //if person does not wish to load from previous state 
       else{
-        system("clear");
-        cout<<flush;
-        printboard(true);
+        if(numberOfMoves>0){
+          system("clear");
+          cout<<flush;
+          printboard(true);
+        }
+        else{
+          system("clear");
+          cout<<flush;
+          continue;
+        }
+        
       }
         
     }
@@ -347,7 +357,12 @@ int main() {
       else{
         system("clear");
         cout<<flush;
-        printboard(true);
+        if(numberOfMoves>0){
+          printboard(true);
+        }
+        else
+          continue;
+        
       }
     }
 
