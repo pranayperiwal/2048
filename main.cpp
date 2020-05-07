@@ -163,7 +163,7 @@ int main() {
           //new game
           if(inputletter == 'n'){
             newgame();
-            system("CLS");
+            system("clear");
             cout<<"Starting a new game for you!\n\n"<<flush;
             printboard(true);
             score=0;
@@ -173,7 +173,7 @@ int main() {
           //undo
           else if(inputletter =='u'){
             undo(currentGameState, previousGameState);
-            system("CLS");
+            system("clear");
             cout<<flush;
             printboard(true);
             break;
@@ -205,7 +205,7 @@ int main() {
 
     //start of normal output for the game
     cout << "n: start new game, w: up, a: left, s: down, d: right" << endl;
-    cout << "u: undo, q: quit, z: save and quit, x:save, l: load" << endl;
+    cout << "u: undo, q: quit, z: save and quit, x: save, l: load" << endl;
     string inputletter;
     cin >> inputletter;
 
@@ -371,7 +371,7 @@ int main() {
       cout << "You have saved the game! Press 'l' to reload the game next time and continue from here. " << endl;
       cout << "Hope you have a good day!" << endl;
 
-      system("CLS");
+      system("clear");
       cout<<flush;
       cout<<"Thank you for playing the game! It has been saved successfully."<<endl;
 
@@ -389,7 +389,7 @@ int main() {
 
     //up move
     else if (inputletter == "w") {
-      system("CLS");
+      system("clear");
       cout<<flush; //clears the screen for the new board
       if(up(currentGameState, previousGameState, score)){
         randomNum(1);
@@ -403,7 +403,7 @@ int main() {
 
     //down move
     else if (inputletter == "s") {
-      system("CLS");
+      system("clear");
       cout<<flush;
       if(down(currentGameState, previousGameState, score)){
         randomNum(1);
@@ -417,7 +417,7 @@ int main() {
 
     //right move
     else if (inputletter == "d") {
-      system("CLS");
+      system("clear");
       cout<<flush;
       if(right(currentGameState, previousGameState, score)){
         randomNum(1);
@@ -432,7 +432,7 @@ int main() {
 
     //left move
     else if (inputletter == "a") {
-      system("CLS");
+      system("clear");
       cout<<flush;
       if(left(currentGameState, previousGameState, score)){
         randomNum(1);
@@ -450,7 +450,7 @@ int main() {
       if(numberOfMoves>=1){
          undo(currentGameState, previousGameState);
       }
-      system("CLS");
+      system("clear");
       cout<<flush;
       printboard(true);
     }
