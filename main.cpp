@@ -285,8 +285,9 @@ int main() {
         if (fin.fail()) {
           system("clear");
           cout<<"No saved state available!\n" <<flush;
-          
-          printboard(true);
+          if(numberOfMoves>=1){
+            printboard(true);
+          }
           continue;
         } 
         else {
@@ -347,7 +348,12 @@ int main() {
       }
 
       if (inp == "y") {
-
+        if(numberOfMoves==0){
+          system("clear");
+          cout<<"Need to have made a move for this functionality.\n"<<flush;
+          continue;
+  
+        }
         system("clear");
         cout<<flush;
         printboard(true);
@@ -384,12 +390,16 @@ int main() {
       }
 
       if (inp == "y") {
-      cout << "The current state of board is shown below. " << endl;
-      cout << "You have saved the game! Press 'l' to reload the game next time and continue from here. " << endl;
-      cout << "Hope you have a good day!" << endl;
-
+        if(numberOfMoves==0){
+          
+          system("clear");
+          cout<<"You must make a move before the game can be saved\n"<<flush;
+          continue;
+        }
       system("clear");
       cout<<flush;
+      cout << "You have saved the game! Press 'l' to reload the game next time and continue from here. " << endl;
+      cout << "Hope you have a good day!" << endl;
       cout<<"Thank you for playing the game! It has been saved successfully."<<endl;
 
       //saving the game
@@ -398,6 +408,11 @@ int main() {
       break;
     }
       else {
+        if(numberOfMoves==0){
+          system("clear");
+          cout<<flush;
+          continue;
+        }
         system("clear");
         cout<<flush;
         printboard(true);
@@ -466,6 +481,11 @@ int main() {
     else if (inputletter == "u"){
       if(numberOfMoves>=1){
          undo(currentGameState, previousGameState, score, prevScore);
+      }
+      if(numberOfMoves==0){
+        system("clear");
+        cout<<flush;
+        continue;
       }
       system("clear");
       cout<<flush;
