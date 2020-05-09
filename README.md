@@ -3,6 +3,10 @@ Repository used to edit the code by the team members.
 
 Game name: 2048
 
+How to execute the program: We have implemented makefile. Therefore, just run make main, and then ./main to run the main.cpp file. Then the game will automatically begin and you can play further. Follow these steps:
+1) make main
+2) ./main
+
 Problem Statement : In our project we try to implement what we have learned throughout the course into one final project. We have made the interactive game 2048 which can be played on the terminal using various features as listed below. The objective of the game being reaching the tile 2048 by combining tiles 2, 4, 16, 32, 64, 128, 256, 512 and 1024. We have used data structures such as 2D arrays, file input/output, functions, make file, probability and random generation of numbers.
 
 1. Brief Identification of Team Members
@@ -52,7 +56,7 @@ vii. Saving the game state
 viii. Quitting and saving the game state
 ix. Undo move by 1 step
 x. Printing the state of board.
-xi. Starting a new game condition. 
+xi. Starting a new game condition.
 
 c) GitHub Repo
 
