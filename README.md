@@ -3,6 +3,8 @@ Repository used to edit the code by the team members.
 
 Game name: 2048
 
+Problem Statement : In our project we try to implement what we have learned throughout the course into one final project. We have made the interactive game 2048 which can be played on the terminal using various features as listed below. The objective of the game being reaching the tile 2048 by combining tiles 2, 4, 16, 32, 64, 128, 256, 512 and 1024. We have used data structures such as 2D arrays, file input/output, functions, make file, probability and random generation of numbers.
+
 1. Brief Identification of Team Members
 
 Prateek Kher - 3035709590
@@ -28,33 +30,35 @@ The new tile generated after every move would be either a ‘2’ or a ‘4’. 
 ii) Data structures for storing game status :
 The game state would be stored in a 2D array. Therefore, for the project, we will be using a linear form of data structure. We will not be using vectors as we do not need to change the size of our board (the permanent size of the board is 4x4).
 
-iii) Dynamic memory management : We will be maintaining a previous game state and a current game state for the purpose of the “undo” functionality we aim to implement. The previous game state would be maintained in a dynamic 2D array. If undo move is made, the current state would simply point to the previous state and the board is changed. The previous game state is deleted before the game is closed.
+iii) Dynamic memory management : We will be maintaining a previous game state and a current game state for the purpose of the “undo” functionality we aim to implement. The previous game state would be maintained in a dynamic 2D array. If undo move is made, the current state would simply point to the previous state and the board is changed. The previous game state is deleted before the game is closed. In this special feature the user can undo up to 1 move. When the user undoes the move, the score also goes back to the previous state. The player can then start playing again as per the options. Maintaining the undo score and undo game state gives the user also flexibility if they make a mistake while playing a game.
 
-iv) File input/output (e.g., for loading/saving game status) : We will implement Undo, Quit, New Game functions. When there are no moves left, or the user wants to quit the game, we will be storing that specific state of the game at that point of time in a new output file, and displaying that on the terminal. Further, we have implemented the features of quit and save, save, and just quit. When the user saves, we output the game state to another folder which contains the saved game state. The user can retrieve the game state by loading this game state again, and continuing to play. The saved game state also preserves the user score.
+iv) File input/output (e.g., for loading/saving game status) : We will implement Undo, Quit, New Game functions. When there are no moves left, or the user wants to quit the game, we will be storing that specific state of the game at that point of time in a new output file, and displaying that on the terminal. Further, we have implemented the features of quit and save, save, and just quit. When the user saves, we output the game state to another folder which contains the saved game state. The user can retrieve the game state by loading this game state again, and continuing to play. The saved game state also preserves the user score. Further, the saved game state is saved in a directory we create 'savedgamestate'. The loading of game state also takes in the input from the file within this folder. This helps our game look cleaner, and more compact.
 
-v) Program codes in multiple files : We will be splitting our code tentatively into three files. These files will contain the code corresponding to the game functionality (game logic), tiles movement, generation of random tiles and merging of tiles.
+v) Program codes in multiple files : Apart from the main , makefile, and the README we have divided the code into further 3 more directories. The three directories are header, functionalities and movement. The movement directory contains all the cpp files with respect to the movement of up, left, right and down. The functionalities directory contains the cpp files of end conditions, quit and undo. We have the headers directory which essentially contains the .h files. We call these various filed from the main.cpp file. The code is divided up cleanly so that user can easily identify and navigate through the code.
 
 b) Functions
 
-1. Moves by the player and the resultant changes of the game state:
+i. Moves by the player and the resultant changes of the game state:
 a) Up
 b) Down
 c) Right
 d) Left
-2. To check if a valid move is made and only then create a random tile
-3. Creating a random new tile with 2 90% of the time and 4 10% of the time
-4. Giving conditions for the final state and end conditions in the case the player is unable to make any more moves
-5. Restart of the game
-6. Quitting the game
-7. Saving the game state
-8. Quitting and saving the game state
-9. Undo move by 1 step
+ii. To check if a valid move is made and only then create a random tile
+iii. Creating a random new tile with 2 90% of the time and 4 10% of the time
+iv. Giving conditions for the final state and end conditions in the case the player is unable to make any more moves
+v. Restart of the game
+vi. Quitting the game
+vii. Saving the game state
+viii. Quitting and saving the game state
+ix. Undo move by 1 step
+x. Printing the state of board.
+xi. Starting a new game condition. 
 
 c) GitHub Repo
 
 Link for the video and gameplay with explanation:
 https://drive.google.com/drive/folders/1hSCnzt6MycVyaZ_aQQ_UvQE0uekhlePZ?usp=sharing
-We have changed the settings to anyone with the link can view the video. 
+We have changed the settings to anyone with the link can view the video.
 
 The github repository where both the students have been added as contributors:
 https://github.com/prateekkher/2048
